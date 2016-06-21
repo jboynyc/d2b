@@ -98,8 +98,8 @@
           (bibtex-line "journalsubtitle" (cadr (format-title journal)))
           (bibtex-line "volume" volume)
           (bibtex-line "number" number)
-          (bibtex-line "pages" (format-pages pages))
           (bibtex-line "date" (format-date date))
+          (bibtex-line "pages" (format-pages pages))
           (bibtex-line "doi" (string-trim-both doi))
           "}"
           )))))
