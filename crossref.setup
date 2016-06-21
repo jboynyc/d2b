@@ -1,0 +1,5 @@
+(compile -s -O3 -d1 -J crossref.scm)
+(compile -s -O3 -d1    crossref.import.scm)
+(install-extension 'crossref
+                   '("crossref.so" "crossref.import.so")
+                   '((version "0.1.0")))

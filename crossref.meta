@@ -1,0 +1,7 @@
+((egg "crossref.egg")
+ (synopsis "crossref")
+ (license "GPL")
+ (category web)
+ (author "jboy")
+ (needs http-client openssl medea rest-bind)
+ (files "crossref.meta" "crossref.scm" "crossref.setup"))
