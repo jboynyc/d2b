@@ -24,5 +24,5 @@
                      (make-hash-table)
                      (alist->hash-table
                        (alist-ref 'message
-                                  (doi-lookup doi)))))
+                                  (query-crossref doi)))))
 )
