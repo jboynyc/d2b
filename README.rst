@@ -18,4 +18,20 @@ A tool that looks up a DOI and constructs an appropriate BibLaTeX entry.
         doi = {10.1007/s11186-011-9161-5},
     }
 
+    $ d2b < my-dois.txt > my-references.bib
+
 This is a work in progress.
+
+Installing ``d2b``
+------------------
+
+The only non-standard prerequisite to building ``d2b`` is Chicken
+Scheme, available on `many
+platforms <https://wiki.call-cc.org/platforms>`__.
+
+::
+
+    $ make
+    $ make install # installs in /usr/local by default
+    $ make install PREFIX=$HOME/.local
+    $ make clean
