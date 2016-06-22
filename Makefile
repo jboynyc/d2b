@@ -16,7 +16,7 @@ d2b:
 
 install:
 	@echo Installing d2b.
-	install $(OUT) $(PREFIX)/bin
+	install -D $(OUT) $(PREFIX)/bin
 
 clean:
 	@echo Cleaning.
