@@ -7,7 +7,7 @@ OUT = ${SRC:.scm=}
 all: egg d2b
 
 egg:
-	@echo Installing crossref egg.
+	@echo Installing crossref egg and its dependencies.
 	chicken-install
 
 d2b:
@@ -22,4 +22,4 @@ clean:
 	@echo Cleaning.
 	rm -f *.import.* *.so $(OUT)
 
-.PHONY: all clean install
+.PHONY: all egg install clean
