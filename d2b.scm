@@ -1,8 +1,8 @@
 #!/usr/bin/csi -ss
-
+;; vim: sw=2 foldmethod=indent
 (use srfi-13
      extras
-     crossref) ; https://bitbucket.org/snippets/jboy1/EkXB4/crossref
+     crossref)
 
 ;; Mapping of Crossref publication types to Bib(La)TeX types
 (define *types*
@@ -10,6 +10,11 @@
     '(("journal-article" . "article")
       ("book-chapter" . "incollection")
       ("proceedings-article" . "inproceedings"))))
+
+;; Helper functions
+(define (to-stderr msg)
+  (format (current-error-port)
+          (format "~A~%" msg)))
 
 (define (unvec v)
   (car (vector->list v)))
@@ -36,6 +41,7 @@
     ((and (string-contains str ".") (not (string-ends-with? str "."))) ".")
     (else ":")))
 
+;; Formatting functions
 (define (format-title title)
   (let* ((split-char (find-split-char title))
          (append-char (if (string=? split-char "?") "?" ""))
@@ -72,15 +78,16 @@
     (string-split page-range "-")
     "--"))
 
-;; Entry point
-(define (main doi)
+;; Main procedure
+(define (process-bib doi)
   (let* ((bib-table (doi-lookup doi))
          (empty-bib (not (hash-table-exists? bib-table 'DOI)))
          (get-value (lambda (key)
                       (if (hash-table-exists? bib-table key)
                         (hash-table-ref bib-table key)
                         ""))))
-    (if empty-bib #f
+    (if empty-bib
+      (to-stderr (conc "DOI could not be resolved: " doi))
       (let ((title (unvec (hash-table-ref bib-table 'title)))
             (type (get-value 'type))
             (journal (unvec (get-value 'container-title)))
@@ -101,11 +108,16 @@
           (bibtex-line "date" (format-date date))
           (bibtex-line "pages" (format-pages pages))
           (bibtex-line "doi" (string-trim-both doi))
-          "}"
-          )))))
+          "}")))))
 
-;; Run main with value from stdin
+;; Entry point
+(define (main dois)
+  (for-each
+    process-bib
+    dois))
+
+;; Run main with input from stdin
 (cond-expand
   ((or chicken-script (and chicken compiling))
-    (main (read-line)))
+    (main (read-lines)))
   (else))
