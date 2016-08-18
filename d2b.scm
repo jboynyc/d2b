@@ -30,14 +30,18 @@
 
 (define (find-split-char str)
   (cond
-    ((and (string-contains str "?") (not (string-suffix? "?" str))) #\?)
-    ((and (string-contains str ".") (not (string-suffix? "." str))) #\.)
-    (else #\:)))
+    ((and (string-contains str "?") (not (string-suffix? "?" str))) "?")
+    ((and (string-contains str "!") (not (string-suffix? "!" str))) "!")
+    ((and (string-contains str ".") (not (string-suffix? "." str))) ".")
+    (else ":")))
 
 ;; Formatting functions
 (define (format-title title)
   (let* ((split-char (find-split-char title))
-         (append-char (if (string=? split-char "?") "?" ""))
+         (append-char (cond
+                        ((string=? split-char "?") "?")
+                        ((string=? split-char "!") "!")
+                        (else "")))
          (split-title (map upcase-first (map string-trim-both (string-split title split-char)))))
     (cond
       ((= (length split-title) 2) (list (conc (car split-title) append-char) (cadr split-title)))
