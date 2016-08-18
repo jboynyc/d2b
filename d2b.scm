@@ -19,16 +19,9 @@
 (define (unvec v)
   (car (vector->list v)))
 
-(define (string-ends-with? str char)
-  (string=? (string-take-right str (string-length char)) char))
-
 (define (upcase-first str)
-  (assert (string? str))
-  (let ((lst (map string (string->list str))))
-    (if (zero? (length lst)) ""
-      (conc
-        (string-upcase (car lst))
-        (string-intersperse (cdr lst) "")))))
+  (string-set! str 0 (char-upcase (string-ref str 0)))
+  str)
 
 (define (bibtex-line key value)
   (if (string=? value "") 
@@ -37,9 +30,9 @@
 
 (define (find-split-char str)
   (cond
-    ((and (string-contains str "?") (not (string-ends-with? str "?"))) "?")
-    ((and (string-contains str ".") (not (string-ends-with? str "."))) ".")
-    (else ":")))
+    ((and (string-contains str "?") (not (string-suffix? "?" str))) #\?)
+    ((and (string-contains str ".") (not (string-suffix? "." str))) #\.)
+    (else #\:)))
 
 ;; Formatting functions
 (define (format-title title)
@@ -67,7 +60,7 @@
     (map
       (lambda (number)
         (let ((numstr (number->string number)))
-          (if (= (string-length numstr) 1)
+          (if (< number 10)
             (conc "0" numstr)
             numstr)))
       (vector->list (unvec (cdar date-parts))))
