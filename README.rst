@@ -20,7 +20,7 @@ A tool that looks up a DOI and constructs an appropriate BibLaTeX entry.
 
     $ d2b < my-dois.txt > my-references.bib
 
-This is a work in progress.
+This is a work in progress. (*Abandoned at this point...*)
 
 Installing ``d2b``
 ------------------
